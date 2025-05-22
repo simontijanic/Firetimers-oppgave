@@ -7,7 +7,7 @@ const logger = require('./middleware/logger');
 const app = express();
 const port = process.env.PORT || 3000;
 
-const connectToDatabase = require('./config/database');
+const connectToDatabase = require('./config/databse');
 connectToDatabase.connectToDatabase()
 
 app.use(express.json());
