@@ -10,10 +10,10 @@ exports.getAllItems = async (req, res) => {
 };
 
 exports.createItem = async (req, res) => {
-    const newItemData = req.body;
+    const { name, description } = req.body;
     const item = new Item({
-        name: newItemData.name,
-        description: newItemData.description 
+        name,
+        description 
     });
 
     try {
