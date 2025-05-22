@@ -35,26 +35,24 @@ Formålet med dette prosjektet er å utvikle og rulle ut en enkel REST API-tjene
 
 ### Nettverksdiagram
 
-```
-Internett
-    |
-    v
-[Brannmur/Gateway IKT-FAG]
-    |
-    +---------------------------------+-----------------------------------+------------------------------------+
-    |                                 |                                   |                                    |
-    v                                 v                                   v                                    v
-[API-server] <-------------------->[Database-server]                 [Andre IKT-FAG tjenester]
-`10.12.14.201`                  `10.12.14.202`
-Port 80 (HTTP)                      Port 27017 (MongoDB, kun fra API-server)
-Port 22 (SSH, fra faberxmir & deg)  Port 22 (SSH, kun fra API-server)
-    |
-    | (NFS mount)
-    v
-[Dokumentserver]
-`10.12.14.203`
-NFS (for /var/logs, /var/docs, kun fra API-server)
-Port 22 (SSH, kun fra API-server)
+```mermaid
+graph TD
+    subgraph Nettverk
+        Internet[Internett] --> GW[Brannmur/Gateway IKT-FAG];
+
+        subgraph "DMZ/Servernett (IKT-FAG)"
+            GW --> APIServer["API-server<br>tentamen.14.ikt-fag.no<br>10.12.14.201<br>Port 80 (HTTP)<br>Port 22 (SSH fra faberxmir/deg)"];
+
+            APIServer -- "MongoDB (27017)<br>SSH (22)" --> DBServer["Database-server<br>mongodb.14.ikt-fag.no<br>10.12.14.202<br>Port 27017 (kun fra API)<br>Port 22 (kun fra API)"];
+            APIServer -- "NFS (/var/logs, /var/docs)<br>SSH (22)" --> DocServer["Dokumentserver<br>docs.14.ikt-fag.no<br>10.12.14.203<br>NFS (kun fra API)<br>Port 22 (kun fra API)"];
+        end
+    end
+
+    style APIServer fill:#f9f,stroke:#333,stroke-width:2px;
+    style DBServer fill:#ccf,stroke:#333,stroke-width:2px;
+    style DocServer fill:#cfc,stroke:#333,stroke-width:2px;
+    style GW fill:#fcc,stroke:#333,stroke-width:2px;
+    style Internet fill:#eee,stroke:#333,stroke-width:2px;
 ```
 
 **Flyt:**
