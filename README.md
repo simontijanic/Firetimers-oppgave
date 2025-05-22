@@ -71,16 +71,15 @@ Tjenesten bruker MongoDB som database.
 
 Databasen har én hovedcollection: `items`.
 
-```
-+-----------------+
-|      Item       |
-+-----------------+
-| _id (ObjectID)  | PK (Primærnøkkel, autogenerert av MongoDB)
-| name (String)   | Required
-| description(String)| Optional
-| createdAt (Date)| Timestamps (automatisk av Mongoose hvis aktivert)
-| updatedAt (Date)| Timestamps (automatisk av Mongoose hvis aktivert)
-+-----------------+
+```mermaid
+erDiagram
+    Item {
+        ObjectID _id PK "Primærnøkkel (autogenerert)"
+        string name "Navn på elementet (påkrevd)"
+        string description "Beskrivelse (valgfri)"
+        datetime createdAt "Tidsstempel for opprettelse (automatisk hvis Mongoose timestamps er på)"
+        datetime updatedAt "Tidsstempel for siste oppdatering (automatisk hvis Mongoose timestamps er på)"
+    }
 ```
 
 ## Middleware
